@@ -49,3 +49,13 @@ tr:nth-child(even) {
   width: 90%;
   margin: 0 auto;
 }
+
+#Github {
+  padding-top: 0.5px;
+}
+
+.bg-light {
+  background-color: #798490!important;
+}
+
+
