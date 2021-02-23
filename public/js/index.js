@@ -1,7 +1,7 @@
 // Added to increase effiency of the flow for service-worker 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("service-worker.js").then(reg => {
+    navigator.serviceWorker.register("/service-worker.js").then(reg => {
       console.log("We found your service worker file!", reg);
     });
   });
@@ -135,16 +135,16 @@ function sendTransaction(isAdding) {
 }
 
 document.querySelector("#add-btn").addEventListener("click", function (event) {
-  event.pendingDefault();
+  // event.preventDefault();
   sendTransaction(true);
 });
 
 document.querySelector("#sub-btn").addEventListener("click", function (event) {
-  event.pendingDefault();
+  // event.preventDefault();
   sendTransaction(false);
 });
 
 document.querySelector("#del-btn").addEventListener("click", function(event) {
-  event.preventDefault();
+  // event.preventDefault();
   deletePending();
 })

@@ -3,48 +3,40 @@ const DATA_CACHE_NAME = "data-cache-v1";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
-  "/favicon.ico",
-  "/manifest.json",
+  "/js/manifest.json",
   "/icons/budget-logo.png",
   "/icons/icon-192x192.png", 
   "/icons/icon-512x512.png",
   "/icons/Octocat.png",
-  "/index.js",
-  "db.js"
+  "/js/index.js",
+  "/js/db.js"
 ];
 
 // install
 self.addEventListener("install", function (evt) {
   evt.waitUntil(
-    caches.open(DATA_CACHE_NAME).then((cache) => cache.add("/api/images"))
-  );
-    
-  // pre cache all static assets
-  evt.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Files have been successfully pre-cached!");
       return cache.addAll(FILES_TO_CACHE)})
   );
-
-  self.skipWaiting();
 });
 
-self.addEventListener("activate", function(evt) {
-  evt.waitUntil(
-    caches.keys().then(keyList => {
-      return Promise.all(
-        keyList.map(key => {
-          if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
-            console.log("Removing old cache data", key);
-            return caches.delete(key);
-          }
-        })
-      );
-    })
-  );
+// self.addEventListener("activate", function(evt) {
+//   evt.waitUntil(
+//     caches.keys().then(keyList => {
+//       return Promise.all(
+//         keyList.map(key => {
+//           if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+//             console.log("Removing old cache data", key);
+//             return caches.delete(key);
+//           }
+//         })
+//       );
+//     })
+//   );
 
-  self.clients.claim();
-});
+//   self.clients.claim();
+// });
 
 // fetch
 self.addEventListener("fetch", function(evt) {
@@ -73,10 +65,14 @@ self.addEventListener("fetch", function(evt) {
   }
 
   evt.respondWith(
-    caches.open(CACHE_NAME).then(cache => {
+    fetch(evt.request).catch(function(){
       return cache.match(evt.request).then(response => {
-        return response || fetch(evt.request);
-      });
+        if (response) {
+          return response
+        } else if (evt.request.headers.get("accept").includes("text/html")){
+          return caches.match("/")
+        }
+      })
     })
   );
 });
