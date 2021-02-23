@@ -8,28 +8,27 @@ const FILES_TO_CACHE = [
   "/icons/budget-logo.png",
   "/icons/icon-192x192.png", 
   "/icons/icon-512x512.png",
-  "/icons/Octocat.png"
- 
+  "/icons/Octocat.png",
+  "/index.js",
+  "db.js"
 ];
 
 // install
 self.addEventListener("install", function (evt) {
-  // pre cache image data
   evt.waitUntil(
     caches.open(DATA_CACHE_NAME).then((cache) => cache.add("/api/images"))
   );
     
   // pre cache all static assets
   evt.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log("Files have been successfully pre-cached!");
+      return cache.addAll(FILES_TO_CACHE)})
   );
 
-  // tell the browser to activate this service worker immediately once it
-  // has finished installing
   self.skipWaiting();
 });
 
-// activate
 self.addEventListener("activate", function(evt) {
   evt.waitUntil(
     caches.keys().then(keyList => {
@@ -65,7 +64,9 @@ self.addEventListener("fetch", function(evt) {
             // Network request failed, try to get it from the cache.
             return cache.match(evt.request);
           });
-      }).catch(err => console.log(err))
+      }).catch(err => {
+          console.log(err)
+      })
     );
 
     return;
