@@ -14,6 +14,22 @@
 ## Usage
 - This application is best utilized for clients who are searching for avenues where they track their budgets on an online or offline basis without worrying if their information is properly saved.
 
+1. Functional Budget Site
+![Dashboard](public/assets/Functional.Site.png)
+
+2. Offline Budget
+![Pending Budget](public/assets/Pending.Budget.png)
+
+3. Display of Second Offline
+![Pending Budget 2](public/assets/Pending.Budget2.png)
+
+4. Turned Offline
+![Switch turned off](public/assets/Turned.Offline.png)
+
+1. Site refreshed back from offline
+![Dashboard Back Online](public/assets/Back.From.Offline.png)
+
+
 ## Installation
 - To install the project follow the following instructions:
 *Within the client's terminal they will `git clone` the repository onto their local device or preferred destination
